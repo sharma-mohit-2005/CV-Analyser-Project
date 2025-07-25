@@ -67,8 +67,8 @@ CareerPathAI/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/CareerPathAI.git
-   cd CareerPathAI
+   git clone https://github.com/sharma-mohit-2005/CV-Analyser-Project.git
+   cd CV-Analyser-Project
    ```
 
 2. **Install dependencies**

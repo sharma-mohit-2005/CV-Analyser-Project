@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Path Finder - CV Analysis Tool</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">Career Path Finder</div>
+        <div class="nav-links">
+          <a href="#home">Home</a>
+          <a href="#features">Features</a>
+          <a href="#upload">Upload CV</a>
+          <a href="about.html">About</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="container">
+      <h1>Discover Your Ideal Career Path</h1>
+      <p>Upload your CV and get personalized job recommendations based on your skills. Learn what additional skills you need to land your dream job.</p>
+      <a href="#upload" class="cta-button">Analyze My CV</a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-title">
+        <h2>How It Works</h2>
+        <p>Our Software analyzes your CV to match your skills with in-demand job roles</p>
+      </div>
+      
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">1</div>
+          <h3>Upload Your CV</h3>
+          <p>Upload your CV in PDF, DOCX, or TXT format. Our system will extract and analyze your skills.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">2</div>
+          <h3>Skill Analysis</h3>
+          <p>Our Software identifies your skills and compares them with our extensive database of job requirements.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">3</div>
+          <h3>Job Recommendations</h3>
+          <p>Receive personalized job role recommendations that match your current skillset.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">4</div>
+          <h3>Skill Gaps</h3>
+          <p>Discover what additional skills you need to acquire to improve your chances for specific job roles.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">5</div>
+          <h3>Learning Resources</h3>
+          <p>Get recommendations for courses and resources to help you develop the skills you need.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">6</div>
+          <h3>Career Tracking</h3>
+          <p>Track your progress and update your profile as you acquire new skills.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="cv-counter">
+    <h2>Total Unique CVs Analyzed:</h2>
+    <div id="cv-count" class="cv-number">Loading...</div>
+  </div>
+  
+  <!-- Upload Section -->
+  <section class="upload-section" id="upload">
+    <div class="container">
+      <div class="section-title">
+        <h2>Upload Your CV</h2>
+        <p>Our Software will analyze your skills and suggest suitable job roles</p>
+      </div>
+      
+      <div class="upload-container">
+        <div class="file-drop-area" id="dropArea">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <p>Drag & drop your CV here or <span style="color: var(--primary);">browse files</span></p>
+          <p class="small-text">Supported formats: PDF, DOCX, TXT</p>
+        </div>
+        <input type="file" id="fileInput" class="file-input" accept=".pdf,.docx,.txt">
+        <button class="btn" id="analyzeBtn">Analyze CV</button>
+      </div>
+      
+      <div class="loading" id="loadingIndicator">
+        <div class="spinner"></div>
+        <p>Analyzing your CV... This may take a moment.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results Section -->
+  <section class="results-section" id="results">
+    <div class="container">
+      <div class="section-title">
+        <h2>Analysis Results</h2>
+        <p>Based on your CV, here are our recommendations</p>
+      </div>
+      
+      <div class="results-container">
+        <!-- Skills Card -->
+        <div class="skills-card">
+          <div class="card-header">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+            </div>
+            <h3 class="card-title">Your Identified Skills</h3>
+          </div>
+          <div class="skills-list" id="identifiedSkills">
+            <!-- Identified skills will be populated dynamically -->
+          </div>
+        </div>
+        
+        <!-- Jobs Card -->
+        <div class="jobs-card">
+          <div class="card-header">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+            </div>
+            <h3 class="card-title">Recommended Job Roles</h3>
+          </div>
+          <div class="jobs-grid" id="recommendedJobs">
+            <!-- Job recommendations will be populated dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Career Path Finder. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const dropArea = document.getElementById('dropArea');
+      const fileInput = document.getElementById('fileInput');
+      const analyzeBtn = document.getElementById('analyzeBtn');
+      const loadingIndicator = document.getElementById('loadingIndicator');
+      const resultsSection = document.getElementById('results');
+
+      // Handle file drop
+      dropArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropArea.style.borderColor = '#6366f1';
+      });
+
+      dropArea.addEventListener('dragleave', () => {
+        dropArea.style.borderColor = '#d1d5db';
+      });
+
+      dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.style.borderColor = '#d1d5db';
+        if (e.dataTransfer.files.length) {
+          fileInput.files = e.dataTransfer.files;
+          dropArea.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+            <p>File selected: ${e.dataTransfer.files[0].name}</p>
+          `;
+        }
+      });
+
+      // Click on drop area to select file
+      dropArea.addEventListener('click', () => {
+        fileInput.click();
+      });
+
+      // When file is selected
+      fileInput.addEventListener('change', () => {
+        if (fileInput.files.length) {
+          dropArea.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+            <p>File selected: ${fileInput.files[0].name}</p>
+          `;
+        }
+      });
+
+      // Course platform icons
+      const platformIcons = {
+        'Coursera': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 0c6.627 0 12 5.373 12 12s-5.373 12-12 12S0 18.627 0 12 5.373 0 12 0zm-.5 4.5c-4.14 0-7.5 3.36-7.5 7.5 0 .969.206 1.91.594 2.771l.984-.492c-.325-.73-.498-1.5-.498-2.279 0-3.14 2.544-5.684 5.684-5.684.557 0 1.115.082 1.64.244l.293-1.131a7.597 7.597 0 00-2.198-.355zm3.256.92l-.984.492c.325.73.498 1.5.498 2.279 0 3.14-2.544 5.684-5.684 5.684-.557 0-1.115-.082-1.64-.244l-.293 1.131a7.597 7.597 0 002.198.354c4.14 0 7.5-3.36 7.5-7.5 0-.975-.208-1.917-.595-2.771z"/></svg>',
+        'Udemy': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 0L5.81 3.573v3.574l6.189-3.574 6.191 3.574V3.573zM5.81 10.148v8.144c0 1.85 2.77 3.708 6.19 3.708s6.19-1.858 6.19-3.708v-8.144l-6.19 3.572z"/></svg>',
+        'edX': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M10.5 17.55L8.45 20.5H2.5l6.505-9.24-6.505-9.26H8.45l6.5 9.26-4.45 6.29zm3 0l2.05 2.95H21.5l-6.505-9.24 6.505-9.26H15.55l-6.5 9.26 4.45 6.29z"/></svg>',
+        'LinkedIn Learning': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg>',
+        'Pluralsight': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M15.72 1.755C10.08-.301 3.811 2.29 1.771 7.93c-2.039 5.64.551 11.896 6.178 13.953 5.627 2.056 11.904-.484 13.943-6.124 2.04-5.64-.55-11.896-6.177-13.953zm-3.192 19.52a9.418 9.418 0 01-3.458-.652c-4.61-1.687-7.055-6.86-5.368-11.469 1.687-4.61 6.86-7.055 11.469-5.368 4.61 1.687 7.055 6.86 5.368 11.469-1.294 3.534-4.552 5.831-8.11 6.02h.099zm-3.105-7.932l4.963 1.87 1.37-3.612-4.963-1.869z"/></svg>',
+        'FreeCodeCamp': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M23.97 12.457l-5.7 5.489c-.008.006-.01.015-.018.021a.638.638 0 01-.906-.02.639.639 0 01.02-.907c.008-.007.018-.008.026-.014l5.13-4.934-5.13-4.934c-.008-.007-.018-.007-.026-.014a.639.639 0 01-.02-.907.638.638 0 01.906-.02c.008.006.01.015.018.021l5.7 5.489c.014.013.02.03.03.044a.636.636 0 010 .642c-.01.014-.016.03-.03.044zM5.73 23.171L5.25 23a.636.636 0 01-.252-.867L15.376 1.317A.638.638 0 1116.5 1.69L6.12 22.508a.637.637 0 01-.39.663zm-5.7-10.714l5.7-5.489c.008-.006.01-.015.018-.021a.638.638 0 01.906.02.639.639 0 01-.02.907c-.008.007-.018.008-.026.014L1.48 12.823l5.13 4.934c.008.007.018.007.026.014a.639.639 0 01.02.907.638.638 0 01-.906.02c-.008-.006-.01-.015-.018-.021l-5.7-5.489a.64.64 0 01-.03-.044.636.636 0 010-.642c.01-.014.016-.03.03-.044z"/></svg>',
+        'DataCamp': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12.946 18.151v5.315L0 19.444V5.777l12.946-4.023v5.315L4.372 10.87v3.711z"/><path fill="currentColor" d="M15.557 6.731l8.442 2.823-8.442 2.823v-5.646zm8.447 4.449v3.711l-8.447 2.801v-5.646z"/></svg>',
+        'Codecademy': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M23.827 18.371c-.202.37-.432.525-.764.525H.936c-.332 0-.562-.155-.764-.525-.197-.36-.182-.732.042-1.094C3.587 11.884 6.946 6.48 10.287 1.102c.202-.37.443-.577.775-.577.332 0 .573.207.775.577 3.346 5.378 6.69 10.782 10.033 16.175.219.362.235.734.042 1.094z"/></svg>',
+      };
+
+      // Default icon for platforms not in the list
+      const defaultIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>';
+
+      // Function to get platform icon
+      function getPlatformIcon(platform) {
+        return platformIcons[platform] || defaultIcon;
+      }
+
+      // Analyze button click
+      analyzeBtn.addEventListener('click', () => {
+        if (!fileInput.files.length) {
+          alert('Please select a CV file first.');
+          return;
+        }
+      
+        const formData = new FormData();
+        formData.append('cv', fileInput.files[0]);
+      
+        loadingIndicator.style.display = 'block';
+      
+        fetch("https://sharmamohit2005.pythonanywhere.com//upload", {
+          method: "POST",
+          body: formData,
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          loadingIndicator.style.display = 'none';
+          resultsSection.style.display = 'block';
+          resultsSection.classList.add('show');
+      
+          // Populate Skills
+          const skillsContainer = document.getElementById('identifiedSkills');
+          skillsContainer.innerHTML = '';
+          
+          if (data.extracted_skills && data.extracted_skills.length > 0) {
+            data.extracted_skills.forEach(skill => {
+              const tag = document.createElement('span');
+              tag.className = 'skill-tag';
+              tag.textContent = skill;
+              skillsContainer.appendChild(tag);
+            });
+          } else {
+            skillsContainer.innerHTML = '<p class="empty-skills">No skills were identified. Please ensure your CV contains relevant keywords.</p>';
+          }
+      
+          // Populate Job Recommendations
+          const jobsContainer = document.getElementById('recommendedJobs');
+          jobsContainer.innerHTML = '';
+          
+          if (data.job_recommendations && data.job_recommendations.length > 0) {
+            data.job_recommendations.forEach(job => {
+              const jobItem = document.createElement('div');
+              jobItem.className = 'job-item';
+              
+              // Generate job description if it's undefined
+              const jobDescription = job.description && job.description !== 'undefined' 
+                ? job.description 
+                : `This role is an excellent match for your skills! Consider exploring opportunities as a ${job.title}.`;
+              
+              let skillsAndCoursesHTML = '';
+              if (job.skillsToAcquire && job.skillsToAcquire.length > 0) {
+                // Create the skills to acquire section
+                let skillsHTML = `
+                  <div class="skills-to-acquire">
+                    <div class="skills-to-acquire-title">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                      </svg>
+                      Skills to acquire:
+                    </div>
+                    <div class="additional-skills">
+                      ${job.skillsToAcquire.map(skill => `<span class="additional-skill">${skill}</span>`).join('')}
+                    </div>
+                  </div>`;
+                
+                // Generate courses section if available
+                let coursesHTML = '';
+                if (job.courses && job.courses.length > 0) {
+                  coursesHTML = `
+                    <div class="course-recommendations">
+                      <div class="course-recommendations-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        </svg>
+                        Recommended Courses:
+                      </div>
+                      <div class="courses-list">
+                        ${job.courses.map(course => `
+                          <div class="course-item">
+                            <div class="course-platform-icon">
+                              ${getPlatformIcon(course.platform)}
+                            </div>
+                            <div class="course-info">
+                              <a href="${course.url}" target="_blank" class="course-title">${course.title}</a>
+                              <span class="course-platform">${course.platform}</span>
+                            </div>
+                          </div>
+                        `).join('')}
+                      </div>
+                    </div>`;
+                }
+                
+                skillsAndCoursesHTML = skillsHTML + coursesHTML;
+              } else {
+                skillsAndCoursesHTML = `
+                  <div class="skills-to-acquire">
+                    <div class="skills-to-acquire-title">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                      </svg>
+                      Skills to acquire:
+                    </div>
+                    <p class="empty-skills">Great news! You already have all the required skills for this role.</p>
+                  </div>
+                `;
+              }
+              
+              jobItem.innerHTML = `
+                <div class="job-header">
+                  <h4 class="job-title">${job.title}</h4>
+                  <span class="match-percentage">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    ${job.match}% Match
+                  </span>
+                </div>
+                <p class="job-description">${jobDescription}</p>
+                ${skillsAndCoursesHTML}
+              `;
+              
+              jobsContainer.appendChild(jobItem);
+            });
+          } else {
+            jobsContainer.innerHTML = '<p class="empty-skills">No job recommendations found. Please ensure your CV contains relevant skills and experience.</p>';
+          }
+      
+          // Smooth scroll to results
+          resultsSection.scrollIntoView({ behavior: 'smooth' });
+        })
+        .catch(error => {
+          loadingIndicator.style.display = 'none';
+          alert('An error occurred while analyzing your CV. Please try again.');
+          console.error('Error during fetch or parsing:', error);
+        });
+      });      
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+    fetch('https://sharmamohit2005.pythonanywhere.com//cv-count')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.cv_count !== undefined) {
+          document.getElementById('cv-count').textContent = data.cv_count;
+        } else {
+          document.getElementById('cv-count').textContent = 'Error';
+          console.error('cv_count not in response:', data);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching CV count:', error);
+        document.getElementById('cv-count').textContent = 'Error';
+      });
+  });
+  </script>
+</body>
+</html>

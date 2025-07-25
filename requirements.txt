@@ -1,0 +1,9 @@
+flask
+flask_cors
+datetime
+json
+werkzeug.utils
+pdfminer.high_level
+docx
+nltk
+string

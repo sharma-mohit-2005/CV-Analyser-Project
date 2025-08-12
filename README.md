@@ -18,9 +18,10 @@ You can also use the `render.yaml` to auto-detect settings when importing the re
 
 ### Railway
 1. Create a new project and connect your repo.
-2. Railway will read `railway.json` and use Nixpacks.
-3. Ensure variable `GEMINI_API_KEY` is set.
-4. Deploy.
+2. Railway will read `railway.json` (Nixpacks plan) and `Procfile`.
+3. Set Variables:
+   - `GEMINI_API_KEY`: Your Google Gemini API Key
+4. Deploy. Build uses `deploy-requirements.txt`. Start uses `gunicorn app:app`.
 
 ### Notes
 - Local `requirements.txt` includes extras; deployment uses `deploy-requirements.txt` to keep slug small.

@@ -6,18 +6,15 @@
       "providers": ["python"],
       "phases": {
         "install": {
-          "cmds": ["pip install -r deploy-requirements.txt"]
+          "cmds": [
+            "pip install -r deploy-requirements.txt",
+            "python - << 'PY'\nimport nltk\ntry:\n    nltk.download('punkt', quiet=True)\n    nltk.download('stopwords', quiet=True)\nexcept Exception as e:\n    print('NLTK download warning:', e)\nPY"
+          ]
         },
         "start": {
           "cmds": ["gunicorn --bind 0.0.0.0:$PORT app:app"]
         }
       }
-    }
-  },
-  "variables": {
-    "GEMINI_API_KEY": {
-      "description": "Your Google Gemini API Key",
-      "required": true
     }
   }
 }

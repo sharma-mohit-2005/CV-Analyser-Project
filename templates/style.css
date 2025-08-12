@@ -23,6 +23,10 @@
   font-family: 'Chakra Petch',Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: var(--darker);
   color: var(--dark);
@@ -764,7 +768,7 @@ header {
 
 .results-container {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 1fr 2fr;
   gap: 30px;
   background-color: var(--card-bg);
   border-radius: 12px;
@@ -781,7 +785,8 @@ header {
 }
 
 .skills-card, 
-.jobs-card {
+.jobs-card,
+.ats-card {
   background-color: var(--card-bg);
   overflow: hidden;
 }
@@ -1212,6 +1217,160 @@ footer {
 
 .form-submit:hover::after {
   width: 100%;
+}
+
+/* ATS Analysis Styles */
+.ats-content {
+  padding: 20px;
+}
+
+.ats-score-display {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  gap: 20px;
+}
+
+.ats-score-circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border: 3px solid;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.ats-score-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.ats-score-label {
+  font-size: 0.7rem;
+  opacity: 0.8;
+  line-height: 1;
+}
+
+.ats-score-info {
+  flex: 1;
+}
+
+.ats-score-level {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.ats-score-description {
+  font-size: 0.9rem;
+  color: var(--gray-600);
+  line-height: 1.4;
+}
+
+.ats-categories {
+  margin-bottom: 20px;
+}
+
+.ats-categories h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: var(--gray-800);
+}
+
+.ats-category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ats-category-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.ats-category-name {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+  min-width: 120px;
+  flex-shrink: 0;
+}
+
+.ats-category-bar {
+  flex: 1;
+  height: 8px;
+  background-color: var(--gray-200);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ats-category-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.8s ease;
+}
+
+.ats-category-score {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  min-width: 30px;
+  text-align: right;
+}
+
+.ats-suggestions {
+  background-color: rgba(59, 130, 246, 0.1);
+  border-radius: 8px;
+  padding: 15px;
+  border-left: 4px solid var(--secondary);
+}
+
+.ats-suggestions h5 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--secondary);
+}
+
+.ats-suggestions-list {
+  list-style: none;
+  margin-bottom: 15px;
+}
+
+.ats-suggestion-item {
+  font-size: 0.9rem;
+  color: var(--gray-700);
+  line-height: 1.4;
+  margin-bottom: 8px;
+  padding-left: 15px;
+  position: relative;
+}
+
+.ats-suggestion-item::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--secondary);
+  font-weight: bold;
+}
+
+.ats-detailed-link {
+  color: var(--secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.ats-detailed-link:hover {
+  text-decoration: underline;
+  color: var(--primary-light);
 }
 
 /* Modal Styles */
@@ -1753,6 +1912,170 @@ footer {
   transform: scale(1.15);
   color: #0056b3;
   cursor: pointer;
+}
+
+/* CV Builder Section Styles */
+.cv-builder-section {
+  padding: 80px 0;
+  background: linear-gradient(135deg, var(--light) 0%, var(--card-bg) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.cv-builder-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.1"/></svg>');
+  background-size: 50px 50px;
+  animation: float 20s ease-in-out infinite;
+}
+
+.cv-builder-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.cv-builder-info h3 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: var(--dark);
+  font-weight: 600;
+}
+
+.cv-builder-info ul {
+  list-style: none;
+  margin-bottom: 30px;
+}
+
+.cv-builder-info li {
+  padding: 10px 0;
+  position: relative;
+  padding-left: 30px;
+  color: var(--dark);
+  font-size: 1.1rem;
+}
+
+.cv-builder-info li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--success);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.cv-preview-card {
+  background: var(--dark);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transform: perspective(1000px) rotateY(-5deg);
+  transition: transform 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.cv-preview-card:hover {
+  transform: perspective(1000px) rotateY(0deg) scale(1.02);
+}
+
+.cv-preview-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--primary);
+}
+
+.cv-preview-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  margin-right: 15px;
+}
+
+.cv-preview-info {
+  flex: 1;
+}
+
+.cv-preview-name {
+  height: 16px;
+  background: var(--card-bg);
+  border-radius: 4px;
+  margin-bottom: 8px;
+  width: 80%;
+}
+
+.cv-preview-title {
+  height: 12px;
+  background: var(--border);
+  border-radius: 4px;
+  width: 60%;
+}
+
+.cv-preview-section {
+  height: 20px;
+  background: var(--border);
+  border-radius: 4px;
+  margin-bottom: 15px;
+  opacity: 0.7;
+}
+
+.cv-preview-section:nth-child(1) {
+  width: 100%;
+}
+
+.cv-preview-section:nth-child(2) {
+  width: 85%;
+}
+
+.cv-preview-section:nth-child(3) {
+  width: 70%;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Responsive Design for CV Builder Section */
+@media (max-width: 768px) {
+  .cv-builder-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+  
+  .cv-preview-card {
+    transform: none;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .cv-builder-info h3 {
+    font-size: 1.5rem;
+  }
+  
+  .cv-builder-info li {
+    font-size: 1rem;
+  }
+  
+  /* Responsive layout for CV analysis results */
+  .results-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .skills-card, .ats-card, .jobs-card {
+    margin: 0;
+  }
 }
 
 

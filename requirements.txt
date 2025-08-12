@@ -5,5 +5,9 @@ json
 werkzeug.utils
 pdfminer.high_level
 docx
+python-docx
 nltk
 string
+weasyprint
+reportlab
+jinja2

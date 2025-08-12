@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Career Roadmap Generator</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .roadmap-container { max-width: 800px; margin: 40px auto; padding: 24px; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .roadmap-form { margin-bottom: 32px; }
+        .roadmap-json { white-space: pre-wrap; background: #f7f7f7; padding: 16px; border-radius: 8px; font-size: 1rem; }
+        .stage { margin-bottom: 24px; padding: 16px; border-left: 4px solid #007bff; background: #f9f9ff; border-radius: 8px; }
+        .stage-title { font-weight: bold; font-size: 1.2rem; color: #007bff; }
+        .skill-gap { color: #d9534f; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/roadmap">Career Roadmap</a>
+    </nav>
+    <div class="roadmap-container">
+        <h2>Career Roadmap Generator</h2>
+        <form class="roadmap-form" id="roadmapForm">
+            <label for="jobRole">Desired Job Role:</label>
+            <input type="text" id="jobRole" name="jobRole" required style="width: 300px;">
+            <br><br>
+            <label for="currentSkills">Current Skills (comma separated):</label>
+            <input type="text" id="currentSkills" name="currentSkills" style="width: 400px;">
+            <br><br>
+            <button type="submit">Generate Roadmap</button>
+        </form>
+        <div id="roadmapResult"></div>
+    </div>
+    <script>
+    document.getElementById('roadmapForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const jobRole = document.getElementById('jobRole').value.trim();
+        const currentSkills = document.getElementById('currentSkills').value.split(',').map(s => s.trim()).filter(s => s);
+        const resultDiv = document.getElementById('roadmapResult');
+        resultDiv.innerHTML = '<em>Generating roadmap...</em>';
+        try {
+            const res = await fetch('/generate_roadmap', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ job_role: jobRole, current_skills: currentSkills })
+            });
+            const data = await res.json();
+            if (data.error) {
+                resultDiv.innerHTML = `<span style='color:red;'>${data.error}</span>`;
+                return;
+            }
+            // Render roadmap
+            let html = `<h3>Roadmap for <span style='color:#007bff;'>${data.job_role}</span></h3>`;
+            html += `<p><strong>Total Duration:</strong> ${data.total_duration_months} months</p>`;
+            if (data.skill_gaps && data.skill_gaps.length) {
+                html += `<p class='skill-gap'>Skill Gaps: ${data.skill_gaps.join(', ')}</p>`;
+            }
+            html += `<div>`;
+            data.stages.forEach(stage => {
+                html += `<div class='stage'>`;
+                html += `<div class='stage-title'>Stage ${stage.stage_number}: ${stage.stage_name}</div>`;
+                html += `<div>${stage.description}</div>`;
+                html += `<div><strong>Skills to Learn:</strong> ${stage.skills.join(', ')}</div>`;
+                html += `<div><strong>Projects:</strong> ${stage.projects.join(', ')}</div>`;
+                html += `<div><strong>Certifications/Courses:</strong> ${stage.certifications.join(', ')}</div>`;
+                html += `<div><strong>Estimated Duration:</strong> ${stage.duration_months} months</div>`;
+                html += `</div>`;
+            });
+            html += `</div>`;
+            resultDiv.innerHTML = html;
+        } catch (err) {
+            resultDiv.innerHTML = `<span style='color:red;'>Error generating roadmap.</span>`;
+        }
+    });
+    </script>
+</body>
+</html>

@@ -103,8 +103,17 @@ CareerPathAI/
 
 ## 🤝 Contributing
 
-We welcome contributions! Please feel free to submit a Pull Request.
+We welcome contributions from team members and the community! 
 
+### For Team Members:
+- Contact repository owner for collaborator access
+- Follow the branching workflow in [CONTRIBUTING.md](CONTRIBUTING.md)
+
+### For External Contributors:
+- Fork the project and submit Pull Requests
+- Read our [Contributing Guidelines](CONTRIBUTING.md) for detailed instructions
+
+### Quick Start:
 1. Fork the project
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)

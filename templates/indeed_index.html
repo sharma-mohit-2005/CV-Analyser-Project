@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indeed Job Search</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f3f4f6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1e40af;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #1e40af;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #3749bd;
+        }
+
+        .results {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .link-item {
+            background: #e0f2fe;
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: #0369a1;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Indeed Job Search</h1>
+        <input type="text" id="skillInput" placeholder="Enter skill (e.g. Python Developer)" />
+        <button onclick="searchJobs()">Search</button>
+        <div class="results" id="results"></div>
+    </div>
+
+    <script>
+        function searchJobs() {
+            const skill = document.getElementById('skillInput').value.trim();
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            if (!skill) {
+                alert("Please enter a skill to search.");
+                return;
+            }
+
+            const query = skill.replace(/ /g, "+");
+            const link = `https://www.indeed.com/jobs?q=${query}`;
+
+            const linkEl = document.createElement('div');
+            linkEl.className = 'link-item';
+            linkEl.innerHTML = `<strong>${skill}:</strong> <a href="${link}" target="_blank">${link}</a>`;
+            resultsDiv.appendChild(linkEl);
+        }
+    </script>
+</body>
+</html>

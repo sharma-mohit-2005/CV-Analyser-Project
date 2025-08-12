@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Builder - CareerPathAI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .cv-builder-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Form Panel */
+        .form-panel {
+            padding: 40px;
+            background: #f8fafc;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 16.67%;
+            transition: width 0.3s ease;
+        }
+
+        /* Form Sections */
+        .form-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            grid-column: span 2;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Dynamic Sections */
+        .dynamic-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .remove-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .add-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        /* Skills Section */
+        .skills-container {
+            margin-bottom: 20px;
+        }
+
+        .skill-input-group {
+            margin-bottom: 15px;
+        }
+
+        .skill-input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #4a5568;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+            min-height: 40px;
+            padding: 10px;
+            border: 2px dashed #e2e8f0;
+            border-radius: 8px;
+        }
+
+        .skill-tag {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .skill-tag .remove {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Navigation Buttons */
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Preview Panel */
+        .preview-panel {
+            padding: 0;
+            background: white;
+            position: relative;
+        }
+
+        .preview-header {
+            background: #2d3748;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-icon {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-icon:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .preview-content {
+            padding: 30px;
+            height: calc(100vh - 200px);
+            overflow-y: auto;
+            background: #f7fafc;
+        }
+
+        /* CV Preview Styles */
+        .cv-preview {
+            background: white;
+            padding: 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .cv-header {
+            text-align: center;
+            border-bottom: 2px solid #2d3748;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .cv-name {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .cv-contact {
+            color: #4a5568;
+            font-size: 14px;
+        }
+
+        .cv-section {
+            margin-bottom: 25px;
+        }
+
+        .cv-section h2 {
+            color: #2d3748;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .cv-item {
+            margin-bottom: 15px;
+        }
+
+        .cv-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .cv-position {
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .cv-company {
+            color: #4a5568;
+            font-style: italic;
+        }
+
+        .cv-duration {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .cv-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .cv-skill {
+            background: #e2e8f0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #4a5568;
+        }
+
+        /* Loading and Notifications */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #718096;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .notification.success {
+            background: #10b981;
+        }
+
+        .notification.error {
+            background: #ef4444;
+        }
+
+        .notification.warning {
+            background: #f59e0b;
+        }
+
+        .notification.show {
+            opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .cv-builder-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">CareerPathAI</div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/#features">Features</a>
+                <a href="/#upload">Upload CV</a>
+                <a href="/cv-builder" class="active">CV Builder</a>
+                <a href="/about.html">About</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="cv-builder-container">
+            <!-- Form Panel -->
+            <div class="form-panel">
+                <div class="form-header">
+                    <h1>Build Your Professional CV</h1>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p id="progressText">Step 1 of 6: Personal Information</p>
+                </div>
+
+                <form id="cvForm">
+                    <!-- Personal Information -->
+                    <div class="form-section active" data-step="1">
+                        <h2 class="section-title">Personal Information</h2>
+                        <div class="form-grid">
+                            <input type="text" id="fullName" name="fullName" placeholder="Full Name" required>
+                            <input type="email" id="email" name="email" placeholder="Email Address" required>
+                            <input type="tel" id="phone" name="phone" placeholder="Phone Number">
+                            <input type="text" id="location" name="location" placeholder="City, Country">
+                            <input type="url" id="linkedin" name="linkedin" placeholder="LinkedIn Profile URL">
+                            <input type="url" id="github" name="github" placeholder="GitHub Profile URL">
+                        </div>
+                        <div class="form-group">
+                            <textarea id="summary" name="summary" placeholder="Professional Summary (2-3 lines describing your experience and goals)" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Experience -->
+                    <div class="form-section" data-step="2">
+                        <h2 class="section-title">Work Experience</h2>
+                        <div id="experienceContainer">
+                            <!-- Experience items will be added here -->
+                        </div>
+                        <button type="button" class="add-btn" onclick="addExperience()">+ Add Experience</button>
+                    </div>
+
+                    <!-- Education -->
+                    <div class="form-section" data-step="3">
+                        <h2 class="section-title">Education</h2>
+                        <div id="educationContainer">
+                            <!-- Education items will be added here -->
+                        </div>
+                        <button type="button" class="add-btn" onclick="addEducation()">+ Add Education</button>
+                    </div>
+
+                    <!-- Skills -->
+                    <div class="form-section" data-step="4">
+                        <h2 class="section-title">Skills</h2>
+                        <div class="skills-container">
+                            <div class="skill-input-group">
+                                <label>Technical Skills</label>
+                                <div class="skill-tags" id="technicalSkills"></div>
+                                <input type="text" id="technicalSkillInput" placeholder="Type a skill and press Enter">
+                            </div>
+                            <div class="skill-input-group">
+                                <label>Soft Skills</label>
+                                <div class="skill-tags" id="softSkills"></div>
+                                <input type="text" id="softSkillInput" placeholder="Type a skill and press Enter">
+                            </div>
+                            <div class="skill-input-group">
+                                <label>Languages</label>
+                                <div class="skill-tags" id="languages"></div>
+                                <input type="text" id="languageInput" placeholder="Type a language and press Enter">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projects -->
+                    <div class="form-section" data-step="5">
+                        <h2 class="section-title">Projects</h2>
+                        <div id="projectsContainer">
+                            <!-- Project items will be added here -->
+                        </div>
+                        <button type="button" class="add-btn" onclick="addProject()">+ Add Project</button>
+                    </div>
+
+                    <!-- Review & Generate -->
+                    <div class="form-section" data-step="6">
+                        <h2 class="section-title">Review & Generate</h2>
+                        <p>Review your CV in the preview panel and make any final adjustments.</p>
+                        <div style="margin: 20px 0;">
+                            <label for="templateSelect">Choose CV Template:</label>
+                            <select id="templateSelect" name="template" onchange="updatePreview()">
+                                <option value="modern">Modern Professional</option>
+                                <option value="classic">Classic Professional</option>
+                                <option value="minimal">Minimal Clean</option>
+                                <option value="creative">Creative Portfolio</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="generateCV()" style="width: 100%; margin-top: 20px;">
+                            Generate & Download CV
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="testAPI()" style="width: 100%; margin-top: 10px;">
+                            Test API Connection
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="testCVGeneration()" style="width: 100%; margin-top: 10px;">
+                            Test CV Generation
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Navigation -->
+                <div class="form-navigation">
+                    <button type="button" class="btn btn-secondary" id="prevBtn" onclick="previousStep()" disabled>
+                        Previous
+                    </button>
+                    <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextStep()">
+                        Next
+                    </button>
+                </div>
+            </div>
+
+            <!-- Preview Panel -->
+            <div class="preview-panel">
+                <div class="preview-header">
+                    <h3>Live Preview</h3>
+                    <div class="preview-actions">
+                        <button class="btn-icon" onclick="updatePreview()" title="Refresh Preview">🔄</button>
+                        <button class="btn-icon" onclick="downloadCV()" title="Download CV">📥</button>
+                    </div>
+                </div>
+                <div class="preview-content" id="previewContent">
+                    <div class="loading">Your CV preview will appear here as you fill in the form</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CV Builder JavaScript
+        let currentStep = 1;
+        const totalSteps = 6;
+        let cvData = {
+            personal: {},
+            experience: [],
+            education: [],
+            skills: {
+                technical: [],
+                soft: [],
+                languages: []
+            },
+            projects: [],
+            template: 'modern'
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setupSkillInputs();
+            addExperience(); // Add one default experience
+            addEducation(); // Add one default education
+            updatePreview();
+        });
+
+        // Step Navigation
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                collectCurrentStepData();
+                currentStep++;
+                showStep(currentStep);
+                updatePreview();
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
+
+        function showStep(step) {
+            // Hide all sections
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show current section
+            document.querySelector(`[data-step="${step}"]`).classList.add('active');
+
+            // Update progress
+            const progress = (step / totalSteps) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `Step ${step} of ${totalSteps}: ${getStepTitle(step)}`;
+
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = step === 1;
+            document.getElementById('nextBtn').style.display = step === totalSteps ? 'none' : 'block';
+        }
+
+        function getStepTitle(step) {
+            const titles = {
+                1: 'Personal Information',
+                2: 'Work Experience',
+                3: 'Education',
+                4: 'Skills',
+                5: 'Projects',
+                6: 'Review & Generate'
+            };
+            return titles[step];
+        }
+
+        // Data Collection
+        function collectCurrentStepData() {
+            switch(currentStep) {
+                case 1:
+                    cvData.personal = {
+                        fullName: document.getElementById('fullName').value,
+                        email: document.getElementById('email').value,
+                        phone: document.getElementById('phone').value,
+                        location: document.getElementById('location').value,
+                        linkedin: document.getElementById('linkedin').value,
+                        github: document.getElementById('github').value,
+                        summary: document.getElementById('summary').value
+                    };
+                    break;
+                case 2:
+                    collectExperience();
+                    break;
+                case 3:
+                    collectEducation();
+                    break;
+                case 4:
+                    // Skills are collected in real-time
+                    break;
+                case 5:
+                    collectProjects();
+                    break;
+            }
+        }
+
+        // Experience Management
+        function addExperience() {
+            const container = document.getElementById('experienceContainer');
+            const expDiv = document.createElement('div');
+            expDiv.className = 'dynamic-item';
+            expDiv.innerHTML = `
+                <div class="item-header">
+                    <h4>Experience ${container.children.length + 1}</h4>
+                    <button type="button" class="remove-btn" onclick="this.parentElement.parentElement.remove()">Remove</button>
+                </div>
+                <div class="form-grid">
+                    <input type="text" placeholder="Job Title" name="position">
+                    <input type="text" placeholder="Company Name" name="company">
+                    <input type="text" placeholder="Start Date (e.g., Jan 2020)" name="startDate">
+                    <input type="text" placeholder="End Date (e.g., Present)" name="endDate">
+                    <div class="form-group">
+                        <textarea placeholder="Job Description and Key Achievements" name="description" rows="3"></textarea>
+                    </div>
+                </div>
+            `;
+            container.appendChild(expDiv);
+        }
+
+        function collectExperience() {
+            cvData.experience = [];
+            document.querySelectorAll('#experienceContainer .dynamic-item').forEach(item => {
+                cvData.experience.push({
+                    position: item.querySelector('[name="position"]').value,
+                    company: item.querySelector('[name="company"]').value,
+                    startDate: item.querySelector('[name="startDate"]').value,
+                    endDate: item.querySelector('[name="endDate"]').value,
+                    description: item.querySelector('[name="description"]').value
+                });
+            });
+        }
+
+        // Education Management
+        function addEducation() {
+            const container = document.getElementById('educationContainer');
+            const eduDiv = document.createElement('div');
+            eduDiv.className = 'dynamic-item';
+            eduDiv.innerHTML = `
+                <div class="item-header">
+                    <h4>Education ${container.children.length + 1}</h4>
+                    <button type="button" class="remove-btn" onclick="this.parentElement.parentElement.remove()">Remove</button>
+                </div>
+                <div class="form-grid">
+                    <input type="text" placeholder="Degree (e.g., Bachelor of Science)" name="degree">
+                    <input type="text" placeholder="Institution Name" name="institution">
+                    <input type="text" placeholder="Year (e.g., 2020)" name="year">
+                    <input type="text" placeholder="GPA (optional)" name="gpa">
+                </div>
+            `;
+            container.appendChild(eduDiv);
+        }
+
+        function collectEducation() {
+            cvData.education = [];
+            document.querySelectorAll('#educationContainer .dynamic-item').forEach(item => {
+                cvData.education.push({
+                    degree: item.querySelector('[name="degree"]').value,
+                    school: item.querySelector('[name="institution"]').value, // Changed from institution to school
+                    graduationDate: item.querySelector('[name="year"]').value, // Changed from year to graduationDate
+                    gpa: item.querySelector('[name="gpa"]').value
+                });
+            });
+        }
+
+        // Skills Management
+        function setupSkillInputs() {
+            const skillInputs = [
+                { input: 'technicalSkillInput', container: 'technicalSkills', category: 'technical' },
+                { input: 'softSkillInput', container: 'softSkills', category: 'soft' },
+                { input: 'languageInput', container: 'languages', category: 'languages' }
+            ];
+
+            skillInputs.forEach(({ input, container, category }) => {
+                document.getElementById(input).addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        addSkill(this.value.trim(), container, category);
+                        this.value = '';
+                    }
+                });
+            });
+        }
+
+        function addSkill(skill, containerId, category) {
+            if (!skill) return;
+
+            const container = document.getElementById(containerId);
+            const skillTag = document.createElement('span');
+            skillTag.className = 'skill-tag';
+            skillTag.innerHTML = `${skill} <span class="remove" onclick="removeSkill(this, '${category}', '${skill}')">×</span>`;
+            container.appendChild(skillTag);
+
+            cvData.skills[category].push(skill);
+            updatePreview();
+        }
+
+        function removeSkill(element, category, skill) {
+            element.parentElement.remove();
+            const index = cvData.skills[category].indexOf(skill);
+            if (index > -1) {
+                cvData.skills[category].splice(index, 1);
+            }
+            updatePreview();
+        }
+
+        // Projects Management
+        function addProject() {
+            const container = document.getElementById('projectsContainer');
+            const projDiv = document.createElement('div');
+            projDiv.className = 'dynamic-item';
+            projDiv.innerHTML = `
+                <div class="item-header">
+                    <h4>Project ${container.children.length + 1}</h4>
+                    <button type="button" class="remove-btn" onclick="this.parentElement.parentElement.remove()">Remove</button>
+                </div>
+                <div class="form-grid">
+                    <input type="text" placeholder="Project Name" name="projectName">
+                    <input type="text" placeholder="Technologies Used" name="technologies">
+                    <input type="url" placeholder="GitHub URL (optional)" name="github">
+                    <input type="url" placeholder="Live Demo URL (optional)" name="demo">
+                    <div class="form-group">
+                        <textarea placeholder="Project Description" name="projectDescription" rows="2"></textarea>
+                    </div>
+                </div>
+            `;
+            container.appendChild(projDiv);
+        }
+
+        function collectProjects() {
+            cvData.projects = [];
+            document.querySelectorAll('#projectsContainer .dynamic-item').forEach(item => {
+                cvData.projects.push({
+                    name: item.querySelector('[name="projectName"]').value,
+                    technologies: item.querySelector('[name="technologies"]').value,
+                    github: item.querySelector('[name="github"]').value,
+                    demo: item.querySelector('[name="demo"]').value,
+                    description: item.querySelector('[name="projectDescription"]').value
+                });
+            });
+        }
+
+        // Preview Generation
+        function updatePreview() {
+            collectCurrentStepData();
+            const previewContent = document.getElementById('previewContent');
+            
+            const cvHTML = `
+                <div class="cv-preview">
+                    <div class="cv-header">
+                        <div class="cv-name">${cvData.personal.fullName || 'Your Name'}</div>
+                        <div class="cv-contact">
+                            ${cvData.personal.email || 'email@example.com'} | 
+                            ${cvData.personal.phone || 'Phone Number'} | 
+                            ${cvData.personal.location || 'Location'}
+                            ${cvData.personal.linkedin ? `| <a href="${cvData.personal.linkedin}">LinkedIn</a>` : ''}
+                            ${cvData.personal.github ? `| <a href="${cvData.personal.github}">GitHub</a>` : ''}
+                        </div>
+                    </div>
+
+                    ${cvData.personal.summary ? `
+                        <div class="cv-section">
+                            <h2>Professional Summary</h2>
+                            <p>${cvData.personal.summary}</p>
+                        </div>
+                    ` : ''}
+
+                    ${cvData.experience.length > 0 ? `
+                        <div class="cv-section">
+                            <h2>Work Experience</h2>
+                            ${cvData.experience.map(exp => `
+                                <div class="cv-item">
+                                    <div class="cv-item-header">
+                                        <div>
+                                            <div class="cv-position">${exp.position}</div>
+                                            <div class="cv-company">${exp.company}</div>
+                                        </div>
+                                        <div class="cv-duration">${exp.startDate} - ${exp.endDate}</div>
+                                    </div>
+                                    <div class="cv-description">${exp.description}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+
+                    ${cvData.education.length > 0 ? `
+                        <div class="cv-section">
+                            <h2>Education</h2>
+                            ${cvData.education.map(edu => `
+                                <div class="cv-item">
+                                    <div class="cv-item-header">
+                                        <div>
+                                            <div class="cv-position">${edu.degree}</div>
+                                            <div class="cv-company">${edu.institution}</div>
+                                        </div>
+                                        <div class="cv-duration">${edu.year}</div>
+                                    </div>
+                                    ${edu.gpa ? `<div>GPA: ${edu.gpa}</div>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+
+                    ${(cvData.skills.technical.length > 0 || cvData.skills.soft.length > 0 || cvData.skills.languages.length > 0) ? `
+                        <div class="cv-section">
+                            <h2>Skills</h2>
+                            ${cvData.skills.technical.length > 0 ? `
+                                <div style="margin-bottom: 10px;">
+                                    <strong>Technical:</strong>
+                                    <div class="cv-skills">
+                                        ${cvData.skills.technical.map(skill => `<span class="cv-skill">${skill}</span>`).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                            ${cvData.skills.soft.length > 0 ? `
+                                <div style="margin-bottom: 10px;">
+                                    <strong>Soft Skills:</strong>
+                                    <div class="cv-skills">
+                                        ${cvData.skills.soft.map(skill => `<span class="cv-skill">${skill}</span>`).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                            ${cvData.skills.languages.length > 0 ? `
+                                <div style="margin-bottom: 10px;">
+                                    <strong>Languages:</strong>
+                                    <div class="cv-skills">
+                                        ${cvData.skills.languages.map(skill => `<span class="cv-skill">${skill}</span>`).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    ` : ''}
+
+                    ${cvData.projects.length > 0 ? `
+                        <div class="cv-section">
+                            <h2>Projects</h2>
+                            ${cvData.projects.map(proj => `
+                                <div class="cv-item">
+                                    <div class="cv-position">${proj.name}</div>
+                                    <div class="cv-company">${proj.technologies}</div>
+                                    <div class="cv-description">${proj.description}</div>
+                                    ${proj.github || proj.demo ? `
+                                        <div style="margin-top: 5px;">
+                                            ${proj.github ? `<a href="${proj.github}" target="_blank">GitHub</a>` : ''}
+                                            ${proj.github && proj.demo ? ' | ' : ''}
+                                            ${proj.demo ? `<a href="${proj.demo}" target="_blank">Live Demo</a>` : ''}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+
+            previewContent.innerHTML = cvHTML;
+        }
+
+        // CV Generation and Download
+        async function generateCV() {
+            collectCurrentStepData();
+            
+            // Validate required fields
+            if (!cvData.personal.fullName || !cvData.personal.email) {
+                showNotification('Please fill in at least your name and email before generating CV.', 'error');
+                return;
+            }
+            
+            // Prepare data in the format expected by the backend
+            const backendData = {
+                personal: cvData.personal,
+                summary: cvData.personal.summary,
+                experience: cvData.experience,
+                education: cvData.education,
+                skills: [
+                    ...cvData.skills.technical,
+                    ...cvData.skills.soft,
+                    ...cvData.skills.languages
+                ],
+                projects: cvData.projects,
+                template: document.getElementById('templateSelect').value,
+                output_format: 'pdf'
+            };
+            
+            console.log('Sending data to backend:', backendData); // Debug log
+
+            try {
+                // Show loading state
+                const generateBtn = document.querySelector('button[onclick="generateCV()"]');
+                const originalText = generateBtn.textContent;
+                generateBtn.textContent = 'Generating...';
+                generateBtn.disabled = true;
+
+                const response = await fetch('/api/generate-cv', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(backendData)
+                });
+
+                console.log('Response status:', response.status); // Debug log
+                console.log('Response headers:', response.headers); // Debug log
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const contentType = response.headers.get('content-type');
+                    
+                    console.log('Response content type:', contentType); // Debug log
+                    
+                    // Determine file extension based on content type
+                    let fileExtension = '.pdf';
+                    if (contentType && contentType.includes('text/html')) {
+                        fileExtension = '.html';
+                        showNotification('PDF generation unavailable. Downloaded as HTML instead.', 'warning');
+                    } else {
+                        showNotification('CV generated and downloaded successfully as PDF!', 'success');
+                    }
+                    
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = `${(cvData.personal.fullName || 'CV').replace(/[^a-z0-9]/gi, '_')}${fileExtension}`;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                    
+                } else {
+                    const errorText = await response.text();
+                    console.error('Error response:', errorText); // Debug log
+                    try {
+                        const errorData = JSON.parse(errorText);
+                        throw new Error(errorData.error || 'Failed to generate CV');
+                    } catch (parseError) {
+                        throw new Error(`Server error: ${response.status} - ${errorText}`);
+                    }
+                }
+            } catch (error) {
+                console.error('Error generating CV:', error);
+                showNotification(`Error generating CV: ${error.message}`, 'error');
+            } finally {
+                // Reset button state
+                const generateBtn = document.querySelector('button[onclick="generateCV()"]');
+                if (generateBtn) {
+                    generateBtn.textContent = originalText;
+                    generateBtn.disabled = false;
+                }
+            }
+        }
+
+        function downloadCV() {
+            collectCurrentStepData();
+            
+            if (!cvData.personal.fullName) {
+                showNotification('Please enter your name before downloading CV.', 'error');
+                return;
+            }
+
+            try {
+                const cvContent = document.getElementById('previewContent').innerHTML;
+                const fileName = (cvData.personal.fullName || 'CV').replace(/[^a-z0-9]/gi, '_');
+                
+                const htmlContent = `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>${cvData.personal.fullName || 'CV'}</title>
+                        <meta charset="UTF-8">
+                        <style>
+                            @page {
+                                size: A4;
+                                margin: 20mm;
+                            }
+                            body { 
+                                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                                margin: 0; 
+                                padding: 0;
+                                line-height: 1.6; 
+                                color: #333; 
+                                font-size: 11pt;
+                            }
+                            .cv-preview { background: white; }
+                            .cv-header { 
+                                text-align: center; 
+                                border-bottom: 3px solid #2c3e50; 
+                                padding-bottom: 15px; 
+                                margin-bottom: 25px; 
+                            }
+                            .cv-name { 
+                                font-size: 24pt; 
+                                font-weight: bold; 
+                                margin-bottom: 8px; 
+                                color: #2c3e50; 
+                            }
+                            .cv-contact { 
+                                color: #666; 
+                                font-size: 10pt; 
+                            }
+                            .cv-section { 
+                                margin-bottom: 20px; 
+                            }
+                            .cv-section h2 { 
+                                color: #2c3e50; 
+                                border-bottom: 2px solid #3498db; 
+                                padding-bottom: 5px; 
+                                font-size: 14pt;
+                            }
+                            .cv-item { 
+                                margin-bottom: 12px; 
+                            }
+                            .cv-item-header { 
+                                display: flex; 
+                                justify-content: space-between; 
+                                margin-bottom: 5px; 
+                            }
+                            .cv-position { 
+                                font-weight: bold; 
+                                font-size: 12pt; 
+                                color: #2c3e50;
+                            }
+                            .cv-company { 
+                                color: #666; 
+                                font-style: italic; 
+                                font-size: 10pt;
+                            }
+                            .cv-skills { 
+                                display: flex; 
+                                flex-wrap: wrap; 
+                                gap: 6px; 
+                            }
+                            .cv-skill { 
+                                background: #ecf0f1; 
+                                padding: 4px 8px; 
+                                border-radius: 3px; 
+                                font-size: 9pt; 
+                                border: 1px solid #bdc3c7;
+                            }
+                            @media print {
+                                body { 
+                                    -webkit-print-color-adjust: exact; 
+                                }
+                            }
+                        </style>
+                    </head>
+                    <body>${cvContent}</body>
+                    </html>
+                `;
+                
+                const blob = new Blob([htmlContent], { type: 'text/html' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${fileName}.html`;
+                a.click();
+                window.URL.revokeObjectURL(url);
+                
+                showNotification('CV downloaded as HTML file! You can print it as PDF using your browser.', 'success');
+            } catch (error) {
+                console.error('Error downloading CV:', error);
+                showNotification('Error downloading CV. Please try again.', 'error');
+            }
+        }
+
+        // Test API Connection
+        async function testAPI() {
+            try {
+                const response = await fetch('/api/test', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ test: 'data' })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    showNotification('API connection successful!', 'success');
+                    console.log('API test response:', data);
+                } else {
+                    throw new Error(`API test failed: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('API test error:', error);
+                showNotification(`API test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test CV Generation with minimal data
+        async function testCVGeneration() {
+            const testData = {
+                personal: {
+                    fullName: 'Test User',
+                    email: 'test@example.com',
+                    phone: '123-456-7890',
+                    location: 'Test City'
+                },
+                summary: 'This is a test CV',
+                experience: [{
+                    position: 'Test Position',
+                    company: 'Test Company',
+                    startDate: 'Jan 2020',
+                    endDate: 'Present',
+                    description: 'Test description'
+                }],
+                education: [{
+                    degree: 'Test Degree',
+                    school: 'Test University',
+                    graduationDate: '2020',
+                    gpa: '3.5'
+                }],
+                skills: ['JavaScript', 'Python', 'HTML'],
+                projects: [{
+                    name: 'Test Project',
+                    description: 'Test project description',
+                    technologies: 'JavaScript, HTML'
+                }],
+                template: 'modern',
+                output_format: 'pdf'
+            };
+
+            try {
+                console.log('Testing CV generation with data:', testData);
+                
+                const response = await fetch('/api/generate-cv', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testData)
+                });
+
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const contentType = response.headers.get('content-type');
+                    
+                    console.log('Response content type:', contentType);
+                    console.log('Blob size:', blob.size);
+                    
+                    showNotification('Test CV generation successful!', 'success');
+                    
+                    // Download the test file
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'test_cv.pdf';
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                } else {
+                    const errorText = await response.text();
+                    console.error('Error response:', errorText);
+                    throw new Error(`CV generation failed: ${response.status} - ${errorText}`);
+                }
+            } catch (error) {
+                console.error('CV generation test error:', error);
+                showNotification(`CV generation test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Utility Functions
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.classList.add('show'), 100);
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => document.body.removeChild(notification), 300);
+            }, 3000);
+        }
+
+        // Auto-save functionality
+        setInterval(() => {
+            collectCurrentStepData();
+            localStorage.setItem('cvBuilderData', JSON.stringify(cvData));
+        }, 30000); // Save every 30 seconds
+
+        // Load saved data on page load
+        window.addEventListener('load', () => {
+            const savedData = localStorage.getItem('cvBuilderData');
+            if (savedData) {
+                // cvData = { ...cvData, ...JSON.parse(savedData) };
+                // Populate form fields if needed
+            }
+        });
+    </script>
+</body>
+</html>

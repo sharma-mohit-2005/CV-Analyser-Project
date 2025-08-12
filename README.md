@@ -1,3 +1,30 @@
+## Deployment
+
+Two options are preconfigured: Render and Railway.
+
+Environment variable required:
+- `GEMINI_API_KEY`: Your Google Gemini Pro API key
+
+### Render (recommended for simplicity)
+1. Push to GitHub (already set up).
+2. On Render, create a new Web Service from your repo.
+3. When prompted, set:
+   - Build Command: `pip install -r deploy-requirements.txt`
+   - Start Command: `gunicorn --bind 0.0.0.0:$PORT app:app`
+4. Add environment variable `GEMINI_API_KEY`.
+5. Deploy.
+
+You can also use the `render.yaml` to auto-detect settings when importing the repo in Render.
+
+### Railway
+1. Create a new project and connect your repo.
+2. Railway will read `railway.json` and use Nixpacks.
+3. Ensure variable `GEMINI_API_KEY` is set.
+4. Deploy.
+
+### Notes
+- Local `requirements.txt` includes extras; deployment uses `deploy-requirements.txt` to keep slug small.
+- If WeasyPrint fails on the server (system libs), it’s optional; functionality will still work without PDF generation.
 # CareerPathAI - AI-Powered Career Development Platform
 
 ## 🚀 Overview
